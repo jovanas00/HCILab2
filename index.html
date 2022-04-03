@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="styles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <title>Telefonski Imenik</title> 
+    </head>
+
+        <!-- scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="scripts.js" type="module"></script>
+        <!--  -->
+
+    <body ng-app="Imenik" ng-controller="ImenikController">
+        <div class="container-fluid">
+            <h1 class="naslov " style="text-align: center;">Telefonski Imenik</h1>             
+        </div>
+
+        <div class="container searchPart">
+            <div name="searchPart">
+                <label control-label>&#128269;</label>
+                <input type="text" ng-model="search"><br><br>
+            </div>
+
+            <table class="table table-responsive table-bordered table-condensed">
+                <thead>
+                    <tr class="zaglavlje">
+                    <td class="polje">Ime</td>
+                    <td class="polje">Prezime</td>
+                    <td class="polje">Telefon</td>
+                    <td class="polje">E-mail adresa</td>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr ng-repeat="x in kontakti | filter:search">
+                        <td class="polje"><span ng-hide="prikaziKontakt($index)">{{x.ime}}</span>
+                        <input text="text" ng-model="x.ime" ng-show="prikaziKontakt($index)"></td>        
+                        <td class="polje"><span ng-hide="prikaziKontakt($index)">{{x.prezime}}</span>
+                        <input text="text" ng-model="x.prezime" ng-show="prikaziKontakt($index)"></td>
+                        <td class="polje"><span ng-hide="prikaziKontakt($index)">{{x.telefon}}</span>
+                        <input text="text" ng-model="x.telefon" ng-show="prikaziKontakt($index)"></td>
+                        <td class="polje"><span ng-hide="prikaziKontakt($index)">{{x.email}}</span>
+                        <input text="text" ng-model="x.email" ng-show="prikaziKontakt($index)"></td>
+                        <td class="polje" ng-hide="showForm">
+                            <div class="dugmici" >
+                                <button ng-click="izmeniKontakt()" ng-hide="prikaziKontakt($index)">&#9998; Ažuriraj</button>
+                                <button ng-click="sacuvajKontakt()" ng-show="prikaziKontakt($index)">&#9989; Sačuvaj</button>
+                                <button ng-click="odustani()" ng-show="prikaziKontakt($index)">&#10060; Otkaži</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button ng-hide="showForm" ng-click="showForm = true">Dodaj kontakt</button>
+
+            <div>
+                <form name="forma" ng-show="showForm" class="col-sm-3">
+                    <div class="form-group">
+                        <label>Ime: </label>
+                        <input pattern="[a-zA-ZšŠžŽćĆčČ]*" type="text" class="form-control" ng-model="ime" name="ime" placeholder="Unesite ime" required>
+                        <div>
+                            <span style="color: red;" ng-show="forma.ime.$invalid && forma.ime.$touched">Nevalidno ime!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label>Prezime:</label>
+                        <input pattern="[a-zA-ZšŠžŽćĆčČ]*" type="text" class="form-control" ng-model="prezime" name="prezime" placeholder="Unesite prezime" required>
+                        <div>
+                            <span style="color: red;" ng-show="forma.prezime.$invalid && forma.prezime.$touched">Nevalidno prezime!</span>
+                        </div>          
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon:</label>
+                        <input pattern="[0-9]*" type="text" class="form-control" ng-model="telefon" name="telefon" placeholder="Unesite broj telefona" required>
+                        <div>
+                            <span style="color: red;" ng-show="forma.telefon.$invalid && forma.telefon.$touched">Nevalidan broj telefona!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail adresa:</label>
+                        <input type="email" class="form-control" ng-model="email" name="mail" placeholder="Unesite e-mail adresu" required>
+                        <div>
+                            <span style="color: red;" ng-show="forma.mail.$invalid && forma.mail.$touched">Nevalidna e-mail adresa!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="dodajKontakt(); showForm=false">&#9989; Sačuvaj</button>
+                        <button ng-click="prazniInput(); showForm=false">&#10060; Otkaži</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>   
+    </body>
+</html>
